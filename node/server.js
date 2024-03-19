@@ -28,7 +28,7 @@ fastify.get("/todo/:id", async (request) => {
 
 // Add a new item
 fastify.post("/todo", async (request) => {
-  const {title, completed} = request.body;
+  const {title} = request.body;
   await fastify.mysql.query("INSERT INTO todo (title) VALUES (?, ?)", [title, completed]);
   return {status: "ok"};
 });

@@ -41,7 +41,7 @@ spec:
       volumes:
         - name: nginx-config
           hostPath:
-            path: ../nginx/default.conf
+            path: /nginx/default.conf
             type: File
 
 ---

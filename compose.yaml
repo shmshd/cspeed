@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  database:
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_USER: cspeed
+      MYSQL_PASSWORD: cspeed
+      MYSQL_DATABASE: todos
+    ports:
+      - "3306"
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d/
+      - database_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./node
+    image: muhammedriaz/backend:latest
+    restart: always
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+      DB_USER: cspeed
+      DB_PASSWORD: cspeed
+      DB_NAME: todos
+    ports:
+      - "3000:3000"
+
+  nginx:
+    image: nginx:1.24.0
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
+volumes:
+  database_data:

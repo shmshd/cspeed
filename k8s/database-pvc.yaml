@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-data-pv-claim
+  labels:
+    type: data
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: database-init-pv
+  labels:
+    app: database
+    type: init
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: "./database/init.sql"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: database-init-pv-claim
+  labels:
+    app: database
+    type: init
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Mi

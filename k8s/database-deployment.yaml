@@ -40,14 +40,14 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
-              name: database-claim0
+              name: database-init-pv-claim
             - mountPath: /var/lib/mysql
               name: database-data
       restartPolicy: Always
       volumes:
-        - name: database-claim0
+        - name: database-init-pv-claim
           persistentVolumeClaim:
-            claimName: database-claim0
+            claimName: database-init-pv-claim
         - name: database-data
           persistentVolumeClaim:
-            claimName: database-data
+            claimName: database-data-pv-claim
